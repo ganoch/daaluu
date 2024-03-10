@@ -1,0 +1,50 @@
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTS 450 (ID=0xdc4)
+    Vendor:   NVIDIA
+    VRAM:     969 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.032 seconds
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.585884 ms
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTS 450 (ID=0xdc4)
+    Vendor:   NVIDIA
+    VRAM:     969 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.033 seconds
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\ownCloud\projects\daaluu\Unity\test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.572484 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 11bc -> priority: 1 
+  Thread -> id: bcc -> priority: 1 
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1dc4 -> priority: 1 
+  Thread -> id: 1dc8 -> priority: 1 
