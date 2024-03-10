@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Daaluu.Logic
 {
-    class RandomPlayer : APlayer
+    public class RandomPlayer : APlayer
     {
         public override string Name { get { return this.Position.ToString(); } set { base.Name = value; } }
 
@@ -19,11 +19,11 @@ namespace Daaluu.Logic
             set
             {
                 base.Game = value;
-                base.Game.StateChanged += new EventHandler<GameStateChangedEventArgs>(_game_StatusChanged);
+                // base.Game.StateChanged += new EventHandler<GameStateChangedEventArgs>(_game_StatusChanged);
             }
         }
 
-        void _game_StatusChanged(object sender, GameStateChangedEventArgs e)
+        protected override void _game_StatusChanged(object sender, GameStateChangedEventArgs e)
         {
             this.execute();
         }

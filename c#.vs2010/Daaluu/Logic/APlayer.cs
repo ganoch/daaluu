@@ -5,6 +5,7 @@ using System.Text;
 using Daaluu.Animation2D;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 
 namespace Daaluu.Logic
 {
@@ -111,16 +112,19 @@ namespace Daaluu.Logic
                 foreach (Tsai d in debts)
                 {
                     if (payable.Count <= i) break;
-                    payable[i].Owner.ReceiveTsai(payable[i]);
                     this.Tsai.List.Remove(d);
-                    this.Tsai.List.Remove(payable[i++]);
+                    this.Tsai.List.Remove(payable[i]);
+                    d.Owner.ReceiveTsai(payable[i]);
+                    d.Owner.payDebts();
+                    i++;
 
                 }
             }
         }
 
 
-        void proc_AnimationFinished(object sender, AnimationEventArgs e) {
+        void proc_AnimationFinished(object sender, AnimationEventArgs e)
+        {
             ((ShuffledStack)e.Object).Coordinates = new PointF(-100, -100);
             this.Hand.AddRange(((ShuffledStack)e.Object).Contents);
             this.Hand.Sort();

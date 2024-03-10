@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Daaluu.Animation2D;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Daaluu.Logic
 {
-    class LocalGame : AGame
+    public class LocalGame : AGame
     {
         public LocalGame()
             : base() {
@@ -98,6 +99,7 @@ namespace Daaluu.Logic
             if (TrickNumber == 10) {
                 TrickNumber = 0;
                 this.distributeGers();
+                this.payDebts();
                 this.newRound((this.LastCaller + 1) % this.players.Count); //a_queue.QueueFinished += new EventHandler<EventArgs>(a_queue_QueueFinished_trick_new_round);
             } else {
                 this.setTurn(this.Trick.CurrentOwner);
@@ -133,7 +135,8 @@ namespace Daaluu.Logic
                 }
             }
 
-
+        }
+        public void payDebts() { 
             foreach (APlayer pl in this.Players)
             {
                 pl.payDebts();

@@ -17,9 +17,9 @@ namespace Daaluu.Logic
         }
         public List<Tsai> List { get; set; }
 
-        public APlayer Owner { get; set; }
+        public APlayer Owner { get; private set; }
 
-        public int Count { 
+        public int Sum { 
             get {
                 int sum = 0;
                 foreach(Tsai t in List)
@@ -27,6 +27,14 @@ namespace Daaluu.Logic
                     sum += t.Value;
                 }
                 return sum;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return this.List.Count;
             }
         }
 
@@ -53,24 +61,29 @@ namespace Daaluu.Logic
             this.Receive(new Tsai(this.Owner));
             this.Receive(new Tsai(this.Owner));
         }
-        public void Receive(Tsai t)
+        public void Receive(Tsai incoming)
         {
-            // өрөө дарагдах
-            foreach(Tsai T in this.List)
+            // өр дарагдах
+            if (incoming.Value == 1)
             {
-                if(T.Value == 0 && T.Owner == t.Owner)
+                int i = 0;
+                foreach (Tsai T in this.List)
                 {
-                    this.List.Remove(T);
-                    break;
+                    if (T.Value == 0 && T.Owner == incoming.Owner)
+                    {
+                        this.List.RemoveAt(i);
+                        break;
+                    }
+                    i++;
                 }
+                incoming.Owner = this.Owner;
             }
-            t.Owner = this.Owner;
-            List.Add(t);
+            this.List.Add(incoming);
         }
 
         public IEnumerator<Tsai> GetEnumerator()
         {
-            return List.GetEnumerator();
+            return this.List.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
