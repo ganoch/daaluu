@@ -8,7 +8,14 @@ namespace Daaluu.Logic
 {
     public class RandomPlayer : APlayer
     {
-        public override string Name { get { return this.Position.ToString(); } set { base.Name = value; } }
+        public RandomPlayer(string name) : this()
+        {
+            this.Name = name;
+        }
+        public RandomPlayer(): base()
+        {
+        }
+        public override string Name { get { return this.Position.ToString(); } set { base.Name = value; base._name = value; } }
 
         public override AGame Game
         {

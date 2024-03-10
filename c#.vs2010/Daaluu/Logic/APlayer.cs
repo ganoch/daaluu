@@ -27,7 +27,7 @@ namespace Daaluu.Logic
             return String.Join(",", this.Hand);
         }
         private AGame _game;
-        private string _name;
+        protected string _name;
         public List<DominoTypes> Ger { get; private set; }
         public TsaiCollection Tsai { get; private set; }
         public virtual AGame Game
@@ -41,6 +41,11 @@ namespace Daaluu.Logic
                 this._game = value;
                 this._game.StateChanged += new EventHandler<GameStateChangedEventArgs>(_game_StatusChanged);
             }
+        }
+
+        public override string ToString()
+        {
+            return this._name;
         }
 
         protected virtual void _game_StatusChanged(object sender, GameStateChangedEventArgs e)
@@ -89,6 +94,15 @@ namespace Daaluu.Logic
             //this.OnTsaiReceived(new TsaiReceivedEventArgs(t));
             this.Tsai.Receive(tsai);
 
+        }
+
+        public bool hasDebts()
+        {
+            foreach(Tsai t in this.Tsai)
+            {
+                if (t.Value < 0) return true;
+            }
+            return false;
         }
 
         public void payDebts()

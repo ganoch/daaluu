@@ -110,17 +110,7 @@ namespace Daaluu.Logic
 
         public void distributeGers()
         {
-            List<APlayer> tsai_avah = new List<APlayer>();
-            foreach (APlayer pl in this.Players)
-            {
-                if (pl.Ger.Count > 2)
-                {
-                    for (int i = 2; i < pl.Ger.Count; i++)
-                    {
-                        tsai_avah.Add(pl);
-                    }
-                }
-            }
+            List<APlayer> tsai_uguh = new List<APlayer>();
 
             foreach (APlayer pl in this.Players)
             {
@@ -128,12 +118,41 @@ namespace Daaluu.Logic
                 {
                     for (int i = 2; i > pl.Ger.Count; i--)
                     {
-                        APlayer receiver = tsai_avah.Last<APlayer>();
-                        tsai_avah.RemoveAt(tsai_avah.Count - 1);
-                        receiver.ReceiveTsai(pl.Tsai.giveTo(receiver));
+                        tsai_uguh.Add(pl);
                     }
                 }
             }
+
+
+            foreach (APlayer pl in this.Players)
+            {
+                if (pl.Ger.Count > 2)
+                {
+                    for (int i = pl.Ger.Count; i > 2; i--)
+                    {
+                        bool allocated = false;
+                        foreach (Tsai t in pl.Tsai.List)
+                        {
+                            if (t.Value < 0 && tsai_uguh.Contains(t.Owner))
+                            {
+                                pl.ReceiveTsai(t.Owner.Tsai.giveTo(pl));
+                                tsai_uguh.Remove(t.Owner);
+                                allocated = true;
+                                break;
+                            }
+                        }
+                        //өр дарагдаагүй бол
+                        if(!allocated)
+                        {
+                            pl.ReceiveTsai(tsai_uguh[tsai_uguh.Count - 1].Tsai.giveTo(pl));
+                            tsai_uguh.RemoveAt(tsai_uguh.Count - 1);
+                        }
+                    }
+
+                }
+            }
+
+
 
         }
         public void payDebts() { 

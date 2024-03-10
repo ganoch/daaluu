@@ -47,5 +47,10 @@ namespace Daaluu.Logic
         {
             return this.Value.GetHashCode() ^ this.Owner.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return this.Value.ToString() + this.Owner;
+        }
     }
 }

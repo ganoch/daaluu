@@ -38,11 +38,27 @@ namespace Daaluu.Logic
             }
         }
 
+        public void Populate()
+        {
+            this.Receive(new Tsai(this.Owner));
+            this.Receive(new Tsai(this.Owner));
+        }
         public Tsai giveTo(APlayer pl)
         {
-            foreach(Tsai t in List)
+            foreach (Tsai t in List)
             {
-                if(t.Value > 0)
+                // Өртэй бол өрөө дарах
+                if (t.Value < 0 && t.Owner == pl)
+                {
+                    List.Remove(t);
+                    t.Owner = this.Owner;
+                    return t;
+                }
+            }
+
+            foreach (Tsai t in List)
+            {
+                if (t.Value > 0)
                 {
                     List.Remove(t);
                     return t;
@@ -52,32 +68,36 @@ namespace Daaluu.Logic
             Tsai debt = new Tsai(-1, pl);
             List.Add(debt);
 
-            Tsai iou= new Tsai(0, this.Owner);
+            Tsai iou = new Tsai(0, this.Owner);
             return iou;
         }
 
-        public void Populate()
-        {
-            this.Receive(new Tsai(this.Owner));
-            this.Receive(new Tsai(this.Owner));
-        }
         public void Receive(Tsai incoming)
         {
             // өр дарагдах
             if (incoming.Value == 1)
             {
-                int i = 0;
                 foreach (Tsai T in this.List)
                 {
                     if (T.Value == 0 && T.Owner == incoming.Owner)
                     {
-                        this.List.RemoveAt(i);
+                        this.List.Remove(T);
                         break;
                     }
-                    i++;
                 }
                 incoming.Owner = this.Owner;
             }
+            // өр дарах цай
+            if(incoming.Value < 0)
+            {
+                incoming.Value = 0;
+                if(!this.List.Remove(incoming))
+                {
+                    throw new InvalidOperationException("iou not found");
+                }
+                return;
+            }
+
             this.List.Add(incoming);
         }
 
