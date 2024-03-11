@@ -47,15 +47,15 @@ namespace Daaluu.Logic
         {
             foreach (Tsai t in List)
             {
-                // Өртэй бол өрөө дарах
-                if (t.Value < 0 && t.Owner == pl)
+                // авлагатай бол авлага хас 
+                if (t.Value == 0 && t.Owner == pl)
                 {
                     List.Remove(t);
+                    t.Value = -1;
                     t.Owner = this.Owner;
                     return t;
                 }
             }
-
             foreach (Tsai t in List)
             {
                 if (t.Value > 0)
@@ -64,6 +64,7 @@ namespace Daaluu.Logic
                     return t;
                 }
             }
+
 
             Tsai debt = new Tsai(-1, pl);
             List.Add(debt);
@@ -90,7 +91,6 @@ namespace Daaluu.Logic
             // өр дарах цай
             if(incoming.Value < 0)
             {
-                incoming.Value = 0;
                 if(!this.List.Remove(incoming))
                 {
                     throw new InvalidOperationException("iou not found");

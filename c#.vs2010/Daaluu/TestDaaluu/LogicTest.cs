@@ -80,6 +80,31 @@ namespace TestDaaluu
             Assert.AreEqual(2, pl2.Tsai.Sum);
         }
         [TestMethod()]
+        public void addDebtTest()
+        {
+            RandomPlayer pl = new RandomPlayer();
+            RandomPlayer pl1 = new RandomPlayer();
+
+            pl.Tsai.List.Clear();
+            pl1.ReceiveTsai(pl.Tsai.giveTo(pl1));
+
+            Assert.AreEqual(1, pl.Tsai.Count);
+            Assert.AreEqual(-1, pl.Tsai.Sum);
+
+            Assert.AreEqual(3, pl1.Tsai.Count);
+            Assert.AreEqual(2, pl1.Tsai.Sum);
+
+
+            pl1.ReceiveTsai(pl.Tsai.giveTo(pl1));
+
+            Assert.AreEqual(2, pl.Tsai.Count);
+            Assert.AreEqual(-2, pl.Tsai.Sum);
+
+            Assert.AreEqual(4, pl1.Tsai.Count);
+            Assert.AreEqual(2, pl1.Tsai.Sum);
+        }
+
+        [TestMethod()]
         public void stackDebtToAllTest()
         {
             RandomPlayer pl = new RandomPlayer();
@@ -237,12 +262,16 @@ namespace TestDaaluu
             Assert.AreEqual(5, pl1.Tsai.Count);
             Assert.AreEqual(4, pl1.Tsai.Sum);
 
-            pl1.Tsai.List.Clear();
-            pl1.ReceiveTsai(new Tsai(0, pl0)); //1гийн авлагатай
-            pl1.ReceiveTsai(pl0.Tsai.giveTo(pl1));
+            Tsai debtSettlement = pl1.Tsai.giveTo(pl0);
+            Assert.AreEqual(-1, debtSettlement.Value);
+            Assert.ReferenceEquals(pl1, debtSettlement.Owner);
 
+            pl0.ReceiveTsai(debtSettlement);
+
+            Assert.AreEqual(4, pl1.Tsai.Count);
+            Assert.AreEqual(4, pl1.Tsai.Sum);
             Assert.AreEqual(0, pl0.Tsai.Count);
-            Assert.AreEqual(0, pl1.Tsai.Count);
+            Assert.AreEqual(0, pl0.Tsai.Sum);
         }
 
         [TestMethod()]
