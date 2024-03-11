@@ -107,7 +107,13 @@ namespace Daaluu
                     game.seatNextPlayer(user_player);
             }
 
-            game.Start();
+            // game.Start();
+
+            #region debug
+            (game as LocalGame).ResetAndShuffle();
+            (game as LocalGame).setTurn(user_player_index);
+            (game as LocalGame).State = GameState.ChoosingJanlii;
+            #endregion
         }
 
         void user_player_HasSelectedChanged(object sender, EventArgs e)

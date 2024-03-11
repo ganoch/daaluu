@@ -85,7 +85,7 @@ namespace Daaluu.Logic
         protected ADomino[] dominoset = new ADomino[50];
         private ShuffledStack[] shuffledstack = new ShuffledStack[10];
         protected List<APlayer> players = new List<APlayer>();
-        protected GameState state = GameState.Null;
+        public GameState state = GameState.Null;
         public Trick Trick { get; set; }
         public int TrickNumber { get; protected set; }
         public int LastCaller { get; protected set; }
@@ -128,7 +128,7 @@ namespace Daaluu.Logic
         public virtual ADomino[] Janliis { get { return _janliis; } }
         public virtual GameState State {
             get { return this.state; }
-            protected set
+            set
             {
                 if(value != GameState.LeadTrick && value != GameState.PlayTrick)
                     Debug.WriteLine("**~~ CHANGING STATUS **********: "+value);
@@ -254,7 +254,7 @@ namespace Daaluu.Logic
        
         protected abstract void newRound(int start_player_id);
 
-        protected void setTurn(int index)
+        public void setTurn(int index)
         {
             this.players[this.CurrentPlayerIndex].MyTurn = false;
             this.players[index].MyTurn = true;

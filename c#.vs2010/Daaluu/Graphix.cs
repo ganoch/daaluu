@@ -274,6 +274,21 @@ namespace Daaluu
                 for (int k = 0; k < _game.ShuffledStack[i].Contents.Length; k++)
                 {
                     DrawLargeDomino(ref g, _game.ShuffledStack[i].Contents[k].DominoType, 10 + (DominoSize.Width + 2) * (k % 10), 10 + 56 * i);
+
+                    DominoTypes type = _game.ShuffledStack[i].Contents[k].DominoType;
+
+                    //highlight hovered selection Janlii
+                    for (int j = 0; j < _game.Janliis.Length; j++)
+                    {
+                        ADomino domino = _game.Janliis[j];
+                        if (domino.DominoType == type && domino.isHovered)
+                        {
+                            g.FillRoundedRectangle(new SolidBrush(Color.FromArgb(127, 161, 227, 255)),
+                                8 + (DominoSize.Width + 2) * (k % 10), 8 + 56 * i,
+                                (DominoSize.Width + 4), (DominoSize.Height + 5), 5);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -339,6 +354,9 @@ namespace Daaluu
                         g.DrawImage(_resources["crown"], midpoint.X - 2, 68);
                     }
 
+                    /**
+                     * Draw Stacks on table
+                     */
                     if (_game.State == GameState.ChoosingStacks || _game.State == GameState.ChoosingJanlii || _game.State == GameState.DistributingStacks)
                     {
                         for (int i = 0; i < max && i < _game.ShuffledStack.Length; i++)
@@ -364,17 +382,6 @@ namespace Daaluu
                     }
 
                     if (_game.State == GameState.LeadTrick || _game.State == GameState.PlayTrick) {
-                        if (_game.State == GameState.PlayTrick) {
-                            g.SmoothingMode = SmoothingMode.AntiAlias;
-                            // using (Matrix m = new Matrix()) {
-                            //    m.Multiply(scale); //must be set for new Matrix
-                            //    g.Transform = m;
-                            g.FillEllipse((_game.Trick.Color == DominoColor.Red ? Brushes.Red : Brushes.White), midpoint.X - DominoSize.Width - Graphix.Point.Width / 2 - 2, midpoint.Y - DominoSize.Height / 2 - Graphix.Point.Height / 2 - 2, Graphix.Point.Width, Graphix.Point.Height);
-                            //}
-                            g.ResetTransform();
-                            g.Restore(scaledState);
-                            scaledState = g.Save();
-                        }
                         if (_game.State == GameState.PlayTrick) {
                             g.SmoothingMode = SmoothingMode.AntiAlias;
                             // using (Matrix m = new Matrix()) {
