@@ -4,6 +4,8 @@ Daaluu game proof of concept, stylized same as PlaneOnPaper (ongots)
 
 old but not forgotten, ongoing hobby project
 
+![screen shot](https://github.com/ganoch/daaluu/blob/master/image.jpg?raw=true)
+
 @TODO ordered by priority
 * Trick play shouldn't just disappear underneath current stack, but be present and visible until trick is over
 * Ger position needs to be on table not below player box
