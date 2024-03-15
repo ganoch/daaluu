@@ -108,20 +108,10 @@ namespace Daaluu.Logic
         {
             AGame.TheGame = this;
             for (int i = 0; i < 50; i++)
-            {
                 dominoset[i] = DominoFactory.getADomino(DominoFactory.PlayableSet[i]);
-            }
 
-            shuffledstack[0] = new ShuffledStack(0);
-            shuffledstack[1] = new ShuffledStack(1);
-            shuffledstack[2] = new ShuffledStack(2);
-            shuffledstack[3] = new ShuffledStack(3);
-            shuffledstack[4] = new ShuffledStack(4);
-            shuffledstack[5] = new ShuffledStack(5);
-            shuffledstack[6] = new ShuffledStack(6);
-            shuffledstack[7] = new ShuffledStack(7);
-            shuffledstack[8] = new ShuffledStack(8);
-            shuffledstack[9] = new ShuffledStack(9);
+            for(int  i = 0; i < 10;i++)
+                shuffledstack[0] = new ShuffledStack(i);
         }
         public ShuffledStack[] ShuffledStack { get { return this.shuffledstack; } }
         public int CurrentPlayerIndex { get; protected set; }
