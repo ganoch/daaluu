@@ -4,7 +4,7 @@ Daaluu game proof of concept, stylized same as PlaneOnPaper (ongots)
 
 old but not forgotten, ongoing hobby project
 
-![screen shot](https://github.com/ganoch/daaluu/blob/master/image.jpg?raw=true)
+![screen shot](https://github.com/ganoch/daaluu/blob/master/c#.vs2010/current.png?raw=true)
 
 @TODO ordered by priority
 * Trick play shouldn't just disappear underneath current stack, but be present and visible until trick is over
