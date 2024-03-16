@@ -111,7 +111,7 @@ namespace Daaluu.Logic
                 dominoset[i] = DominoFactory.getADomino(DominoFactory.PlayableSet[i]);
 
             for(int  i = 0; i < 10;i++)
-                shuffledstack[0] = new ShuffledStack(i);
+                shuffledstack[i] = new ShuffledStack(i);
         }
         public ShuffledStack[] ShuffledStack { get { return this.shuffledstack; } }
         public int CurrentPlayerIndex { get; protected set; }
