@@ -55,6 +55,7 @@ namespace Daaluu
         private void Main_Load(object sender, EventArgs e)
         {
             restart();
+            this.textBox1.Text = Graphix.gerOffsetRadius.ToString();
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
@@ -145,6 +146,24 @@ namespace Daaluu
         private void btnReset_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void splitContainer1_Panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.txtCoordinates.Text = Graphix.scaledMouseLocation.ToString();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Graphix.gerOffsetRadius = Int32.Parse(textBox1.Text);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

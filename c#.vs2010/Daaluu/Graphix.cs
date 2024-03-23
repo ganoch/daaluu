@@ -11,13 +11,16 @@ using System.Diagnostics;
 using System.Resources;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Contexts;
 
 namespace Daaluu
 {
     public class Graphix
     {
         public static Point midpoint = new Point(286, 286);
-        private static Point mouseLocation = new Point();
+        public static Point mouseLocation = new Point();
+        public static PointF scaledMouseLocation = new PointF();
         private static AGame _game = null;
         private static UserPlayer _player = null;
 
@@ -81,6 +84,7 @@ namespace Daaluu
                 m.Scale(1 / prev_scale, 1 / prev_scale);
                 m.TransformPoints(temp);
                 scaled_Location = temp[0];
+                scaledMouseLocation = temp[0];
             }
 
             int index = 0;
@@ -128,7 +132,7 @@ namespace Daaluu
                     }
 
                 }
-                
+
                 if (_player != null)
                 {
                     if (_game.State == GameState.PlayTrick || _game.State == GameState.LeadTrick || _game.State == GameState.DistributingStacks)
@@ -136,7 +140,7 @@ namespace Daaluu
                         int i = 0;
                         foreach (ADomino domino in _player.Hand)
                         {
-                            domino.isHovered = new RectangleF(140 + 8 + 28 * (i % 10), (domino.Selected?-10:0)+500 + 56 * (i / 10), DominoSize.Width, DominoSize.Height).Contains(scaled_Location);
+                            domino.isHovered = new RectangleF(140 + 8 + 28 * (i % 10), (domino.Selected ? -10 : 0) + 500 + 56 * (i / 10), DominoSize.Width, DominoSize.Height).Contains(scaled_Location);
                             i++;
                         }
                     }
@@ -193,7 +197,7 @@ namespace Daaluu
                         }
                         i++;
                     }
-                } 
+                }
                 else if (WaitForColorSelect && _game.State == GameState.LeadTrick)
                 {
                     if (new RectangleF(midpoint.X - c_container_width / 2 + 10, midpoint.Y - c_container_height / 2 + 10, 50, 50).Contains(scaled_Location))
@@ -207,7 +211,7 @@ namespace Daaluu
 
                 }
             }
-            
+
             if (_game != null && _player != null)
             {
                 if (_game.State == GameState.PlayTrick || _game.State == GameState.LeadTrick)
@@ -243,7 +247,7 @@ namespace Daaluu
             }
         }
 
-        private static void setMouseLocation(Point mlocation){
+        private static void setMouseLocation(Point mlocation) {
             mouseLocation = mlocation;
         }
 
@@ -264,9 +268,9 @@ namespace Daaluu
                 //Debug.WriteLine("i: " + i);
                 if (_game.ShuffledStack[i].isHovered)
                 {
-                    g.FillRoundedRectangle(new SolidBrush(Color.FromArgb(59, 196, 255)), 7, 7 + 56 * i , (DominoSize.Width + 2) * 5 + 4, (DominoSize.Height + 6) , 5);
+                    g.FillRoundedRectangle(new SolidBrush(Color.FromArgb(59, 196, 255)), 7, 7 + 56 * i, (DominoSize.Width + 2) * 5 + 4, (DominoSize.Height + 6), 5);
                 }
-                else if( i < 5 && _game.ShuffledStack[i+5].isHovered || i>4 && _game.ShuffledStack[i-5].isHovered)
+                else if (i < 5 && _game.ShuffledStack[i + 5].isHovered || i > 4 && _game.ShuffledStack[i - 5].isHovered)
                 {
                     g.FillRoundedRectangle(new SolidBrush(Color.FromArgb(161, 227, 255)), 7, 7 + 56 * i, (DominoSize.Width + 2) * 5 + 4, (DominoSize.Height + 6), 5);
                     g.DrawRoundedRectangle(new Pen(Brushes.Black, 0.5f), 7, 7 + 56 * i, ((DominoSize.Width + 2) * 5) + 4, DominoSize.Height + 6, 5);
@@ -324,9 +328,8 @@ namespace Daaluu
                 using (Matrix m = new Matrix())
                 {
                     m.Multiply(scale); //must be set for new Matrix
-                    for (int i = 0; i < max ; i++)
+                    for (int i = 0; i < max; i++)
                     {
-
                         color = new Pen(_game != null && i < _game.ShuffledStack.Length && _game.ShuffledStack[i].isHovered && _game.State == GameState.ChoosingStacks ? Color.White : HoverBorderColor);
 
                         g.DrawRoundedRectangle(color, midpoint.X + 90, midpoint.Y - 15, 58, 30, 5);
@@ -335,11 +338,22 @@ namespace Daaluu
                     }
                 }
                 g.ResetTransform();
-                g.Restore(scaledState); 
+                g.Restore(scaledState);
                 scaledState = g.Save();
 
                 if (_game != null)
                 {
+                    /***** DRAW PLAYERS ***/
+
+                    int offset = 8 - _player.Position;
+
+                    for (int player_index = 0; player_index < 5; player_index++)
+                    {
+                        DrawPlayer(ref g, _game.Players[player_index], player_coordinates[(player_index + offset) % 5].X, player_coordinates[(player_index + offset) % 5].Y, scale);
+
+                        g.Restore(scaledState);
+                        scaledState = g.Save();
+                    }
                     //Тухайн тоглолтын Жанлий
                     using (Matrix m = new Matrix())
                     {
@@ -393,8 +407,8 @@ namespace Daaluu
                             g.Restore(scaledState);
                             scaledState = g.Save();
                         }
-                        
-                        for(int i = 0; i < _game.Trick.Stack.Count; i++)
+
+                        for (int i = 0; i < _game.Trick.Stack.Count; i++)
                         {
                             using (Matrix m = new Matrix())
                             {
@@ -420,7 +434,7 @@ namespace Daaluu
                                 }
                                 else
                                 {
-                                    DrawLargeDomino(ref g, d.DominoType, domino_mid.X - d.Size.Width, domino_mid.Y -d.Size.Height / 2);
+                                    DrawLargeDomino(ref g, d.DominoType, domino_mid.X - d.Size.Width, domino_mid.Y - d.Size.Height / 2);
                                     if (_game.Trick.Stack.Count > i && _game.Trick.Stack[i].Count > 1)
                                     {
                                         DrawLargeDomino(ref g, _game.Trick.Stack[i][1].DominoType, domino_mid.X, domino_mid.Y - _game.Trick.Stack[i][0].Size.Height / 2);
@@ -471,7 +485,7 @@ namespace Daaluu
                             DButton btn = (DButton)obj;
 
                             g.DrawRoundedRectangle(new Pen(Brushes.LightGray), btn.Coordinates.X - 1, btn.Coordinates.Y - 1, btn.Size.Width + 2, btn.Size.Height + 2, 5);
-                            g.FillRoundedRectangle(btn.Enabled?Brushes.White:Brushes.LightGray, new Rectangle(btn.Coordinates, btn.Size), 5);
+                            g.FillRoundedRectangle(btn.Enabled ? Brushes.White : Brushes.LightGray, new Rectangle(btn.Coordinates, btn.Size), 5);
                             g.DrawString(btn.Text, new Font("Tahoma", 12), Brushes.Black, btn.Coordinates.X + 10, btn.Coordinates.Y + 5);
                         }
                     }
@@ -483,9 +497,9 @@ namespace Daaluu
                         g.FillRoundedRectangle(new SolidBrush(Color.FromArgb(255, 54, 100, 51)), new Rectangle(midpoint.X - c_container_width / 2, midpoint.Y - c_container_height / 2, c_container_width, c_container_height), 5);
                         g.DrawRoundedRectangle(new Pen(Color.FromArgb(95, 142, 92)), new Rectangle(midpoint.X - c_container_width / 2 - 1, midpoint.Y - c_container_height / 2 - 1, c_container_width + 2, c_container_height + 2), 6);
 
-                        g.FillRoundedRectangle(Brushes.Red, new Rectangle(midpoint.X - c_container_width / 2 + 10 , midpoint.Y - c_container_height / 2 + 10, 50, 50), 5);
-                        g.FillRoundedRectangle(Brushes.White, new Rectangle(midpoint.X - c_container_width / 2 + 5 + c_container_width/2, midpoint.Y - c_container_height / 2 + 10, 50,50), 5);
-                        
+                        g.FillRoundedRectangle(Brushes.Red, new Rectangle(midpoint.X - c_container_width / 2 + 10, midpoint.Y - c_container_height / 2 + 10, 50, 50), 5);
+                        g.FillRoundedRectangle(Brushes.White, new Rectangle(midpoint.X - c_container_width / 2 + 5 + c_container_width / 2, midpoint.Y - c_container_height / 2 + 10, 50, 50), 5);
+
                     }
 
                     if (_game.State == GameState.ChoosingJanlii && (_player != null && _player.MyTurn))
@@ -502,17 +516,6 @@ namespace Daaluu
                             DrawLargeDomino(ref g, domino.DominoType, j_container_x + 18 + index * (30 + 10), j_container_y + 13);
                             index++;
                         }
-                    }
-                    /***** DRAW PLAYERS ***/
-
-                    int offset = 8 - _player.Position;
-
-                    for (int player_index = 0; player_index < 5; player_index++)
-                    {
-                        DrawPlayer(ref g, _game.Players[player_index], player_coordinates[(player_index + offset)%5].X, player_coordinates[(player_index + offset)%5].Y, scale);
-
-                        g.Restore(scaledState);
-                        scaledState = g.Save();
                     }
 
                     /*
@@ -596,45 +599,24 @@ namespace Daaluu
 
         public static void DrawPlayer(ref Graphics g, APlayer player, int x, int y, Matrix scale)
         {
-            DrawPlayer(ref g, player,(float)x, (float)y, scale);
+            DrawPlayer(ref g, player, (float)x, (float)y, scale);
         }
 
         public static void DrawPlayer(ref Graphics g, APlayer player, float x, float y, Matrix main)
         {
-            if(player.MyTurn)
+            if (player.MyTurn)
                 g.FillRoundedRectangle(Brushes.Green, new RectangleF(x - 7, y - 7, 104f, 94f), 7);
             else
                 g.DrawRoundedRectangle(Pens.Gray, new RectangleF(x - 5, y - 5, 100f, 90f), 5);
-            g.FillRoundedRectangle(Brushes.White , new RectangleF(x-5, y-5, 100f, 90f), 5);
-            g.FillRoundedRectangle(player.Position==_player.Position?Brushes.Black:Brushes.Gray, new RectangleF(x, y, 50f, 50f), 5);
+            g.FillRoundedRectangle(Brushes.White, new RectangleF(x - 5, y - 5, 100f, 90f), 5);
+            g.FillRoundedRectangle(player.Position == _player.Position ? Brushes.Black : Brushes.Gray, new RectangleF(x, y, 50f, 50f), 5);
             g.DrawString(player.Name, new Font("Tahoma", 16), Brushes.Black, x, y + 55);
 
 
-            // Draw Ger
-            int index = 0;
-            using (Matrix m = new Matrix())
-            {
-                m.Scale(.7f, .7f);
-                m.Multiply(main);
-                g.Transform = m;
-
-                using (Matrix reverse_m = new Matrix())
-                {
-                    reverse_m.Scale(1/.7f, 1/.7f);
-                    PointF[] temp = { new PointF(x, y) };
-                    //g.ScaleTransform(.7f, .7f);
-                    reverse_m.TransformPoints(temp);
-                    List<DominoTypes> tmp = new List<DominoTypes>(player.Ger);
-                    foreach (DominoTypes ger in tmp)
-                    {
-                        DrawLargeDomino(ref g, ger, temp[0].X  -10+ (DominoSize.Width + 1) * index, temp[0].Y + 125);
-                        index++;
-                    }
-                }
-            }
+            DrawPlayerGers(ref g, player, main);
 
             //Draw Tsai
-            index = 0;
+            int index = 0;
             using (Matrix m = new Matrix())
             {
                 m.Scale(.6f, .6f);
@@ -665,6 +647,35 @@ namespace Daaluu
             }
         }
 
+
+        public static int gerOffsetRadius = 120;
+        public static void DrawPlayerGers(ref Graphics g, APlayer player, Matrix main)
+        {
+
+            Double playerAngle = Graphix.player_domino_angles[player.Seat];
+
+            // Draw Ger
+            int index = 0;
+
+            List<DominoTypes> tmp = new List<DominoTypes>(player.Ger);
+            int width = (int)(DominoSize.Width + 1) * tmp.Count - 1;
+
+
+            foreach (DominoTypes ger in tmp)
+            {
+                using (Matrix rotation = new Matrix())
+                {
+                    rotation.Multiply(main);
+                    rotation.RotateAt((float)playerAngle, midpoint);
+                    rotation.Translate(0,(float)gerOffsetRadius);
+                    g.Transform = rotation;
+                    DrawLargeDomino(ref g, ger, midpoint.X + (DominoSize.Width + 1) * index - width/2,midpoint.Y);
+                }
+                index++;
+            }
+
+            g.Transform = main;
+        }
 
         public static void DrawDominoBase(ref Graphics g, int x, int y)
         {

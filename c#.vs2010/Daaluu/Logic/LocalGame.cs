@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using Daaluu.Animation2D;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 
 namespace Daaluu.Logic
 {
@@ -162,6 +163,15 @@ namespace Daaluu.Logic
             }
         }
 
+        public void offerPlayerGer(DominoTypes type, APlayer from, APlayer to)
+        {
+
+        }
+
+        public void acceptGer(DominoTypes type, APlayer from, APlayer to)
+        {
+
+        }
 
         public override void chooseStack(int stack_index) {
             Debug.WriteLine("*** LocalGame.Stack : " + stack_index);
