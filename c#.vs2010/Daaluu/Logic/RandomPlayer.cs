@@ -121,7 +121,7 @@ namespace Daaluu.Logic
             List<ADomino> same_color = new List<ADomino>();
             foreach (ADomino d in this.Hand)
             {
-                if (!this.Game.Trick.Color.Equals(d.Color) && !this.Game.Trick.isJanlii(d.DominoType))
+                if (d == null || !this.Game.Trick.Color.Equals(d.Color) && !this.Game.Trick.isJanlii(d.DominoType))
                     continue;
                 else if (!this.Game.Trick.isJanlii(d.DominoType))
                     same_color.Add(d);

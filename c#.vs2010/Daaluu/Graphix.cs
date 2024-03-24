@@ -661,17 +661,17 @@ namespace Daaluu
             int width = (int)(DominoSize.Width + 1) * tmp.Count - 1;
 
 
-            foreach (DominoTypes ger in tmp)
+            using (Matrix rotation = new Matrix())
             {
-                using (Matrix rotation = new Matrix())
+                rotation.Multiply(main);
+                rotation.RotateAt((float)playerAngle, midpoint);
+                rotation.Translate(0, (float)gerOffsetRadius);
+                g.Transform = rotation;
+                foreach (DominoTypes ger in tmp)
                 {
-                    rotation.Multiply(main);
-                    rotation.RotateAt((float)playerAngle, midpoint);
-                    rotation.Translate(0,(float)gerOffsetRadius);
-                    g.Transform = rotation;
                     DrawLargeDomino(ref g, ger, midpoint.X + (DominoSize.Width + 1) * index - width/2,midpoint.Y);
+                    index++;
                 }
-                index++;
             }
 
             g.Transform = main;
