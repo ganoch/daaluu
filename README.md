@@ -7,8 +7,8 @@ old but not forgotten, ongoing hobby project
 ![screen shot](https://github.com/ganoch/daaluu/blob/master/c%23.vs2010/current.png)
 
 @TODO ordered by priority
+* гэр өгөх авах interface, but only in case debt is issued, in any other case it doesn't matter
 * Trick play shouldn't just disappear underneath current stack, but be present and visible until trick is over
-* Ger position needs to be on table not below player box
 * 4 yooz case
 * 4 9 case
 * Боол (slave) implementation
